@@ -34,9 +34,17 @@
 
     当访问 /#/app1时，页面加载App1组件
     当访问 /#/app2时，页面加载App1和App2组件
+        此时效果等价于
+            <App1>
+                <App2/>
+            </App1>
+    如果省略 App1对应的Route的path属性，访问 /#/app2时也会加载App1
+        此时效果等价于
+            <App1>
+                <App2/>
+            </App1>
 
     如果是嵌套路由，由于App1中嵌套了App2，所以App1应该这么写
-
     export default class App1 extends React.Component{
         render() {
             <div>
@@ -46,3 +54,49 @@
             </div>
         }
     }
+
+5、路由匹配规则
+    组件加载逻辑是根据路由列表从上往下匹配的，如果匹配到某一个规则，那么将不再往下匹配。
+    <Router history={hashHistory}>
+        <Route path="/" component={Login}></Route>
+        <Route path="/login1" component={Login1}></Route>
+        <Route path="/login2" component={Login2}></Route>
+        <Route path="/login3" component={Login3}></Route>
+        <Route path="/*" component={404Page}></Route>
+    </Router>
+    假如地址栏中输入 /login2,那么将依次比对 '/', '/login1'路由规则，当匹配至'/login2'时发现匹配成功，则页面加载Login2组件
+    假如地址栏中输入 /error, 那么将依次匹配到'/*'规则，页面将加载404Page。根据路由列表的匹配特性，可以处理所有路由规则。
+
+6、通配符
+    path="/index/:name"
+        匹配举例： /#/index/html
+                  /#/index/query
+
+    path="/index(/:name)"
+        匹配举例: /#/index
+                 /#/index/query
+
+    path="/index/*.*"
+        匹配举例： /#/index/hello.png
+                  /#/index/say.html
+    path="/index/*.jpg"
+
+    path="/index/**/*.jpg"
+        匹配举例：
+            /#/index/page1/page2/hello.jpg
+            /#/index/page2/hello.jpg
+
+    1. :parans 匹配一个参数，可以在this.props.params.paramsName中获取
+    2. ()， 表示此部分是可选的
+    3. * 匹配任意字符，直到模式里面的下一个字符为止。匹配方式是非贪婪模式。
+    4. ** 匹配任意字符，直到下一个/、?、#为止。匹配方式是贪婪模式。
+
+
+    带通配符的路由规则应该写在特定路由规则之后
+        <Router history={hashHistory}>
+            <Route path="/:account/:id" component={App1}></Route>
+            <Route path="/about/culture" component={App2}></Route>
+        </Router>
+    当访问/#/about/culture时，由于path="/:account/:id"也能匹配成功，不能达到访问App2的目的。
+
+    /#/about/culture?name=year  this.props.location.query.name可以取得name的值
