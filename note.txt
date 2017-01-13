@@ -55,6 +55,17 @@
         }
     }
 
+
+    嵌套路由的path可以不加 /
+    <Router>
+        <Route path="/app1" component={App1}>
+            <Route path="/app2" component={App2}></Route>  //对应访问地址  /#/app2
+        </Route>
+        <Route path="/app3" component={App3}>
+            <Route path="app4" component={App4}></Route>    //对应访问地址  /#/app3/app4
+        </Route>
+    </Router>
+
 5、路由匹配规则
     组件加载逻辑是根据路由列表从上往下匹配的，如果匹配到某一个规则，那么将不再往下匹配。
     <Router history={hashHistory}>
@@ -100,3 +111,42 @@
     当访问/#/about/culture时，由于path="/:account/:id"也能匹配成功，不能达到访问App2的目的。
 
     /#/about/culture?name=year  this.props.location.query.name可以取得name的值
+
+7、IndexRoute
+    <Router history="hashHistory">
+        <Route path="/" component={App}>
+            <IndexRoute component={Hello}></IndexRoute>
+            <Route path="p1" component={p1}></Route>
+            <Route path="p2" component={p2}></Route>
+        </Route>
+    </Router>
+
+    App.render = function(){
+        return (
+            <div>{this.props.children}</div>
+        );
+    };
+    应用场景：
+        如上代码，当访问根路径时，App.props.children是 null，页面不会加载任何组件。添加IndexRoute的作用就是在访问根路径时指定默认的访问组件。
+        IndexRoute位于react-router包中需要import引入。
+        IndexRoute不需要path属性
+
+8、Redirect
+    重定向组件，将from中指定的路径跳转至to中指定的路径
+    组件用于路由的跳转，即用户访问一个路由，会自动跳转到另一个路由。
+    <Router history={hashHistory}>
+        <Redirect from="/page1" to="/page5"></Redirect> //  /#/page1重定向到/#/page5
+    </Router>
+
+9、IndexRedirect
+    用于访问根路径路由时，重定向到某个路由
+    <Router history={hashHistory}>
+        <Route path="/" component={App}>
+            <IndexRedirect to="page1"></IndexRedirect>  //  访问根路径时 重定向到 /#/page1
+        </Route>
+    </Router>
+
+    与IndexRoute的异同：
+        相同点：都是处理根路径访问时默认加载组件
+        不同点：IndexRoute不会改变地址
+                IndexRedirect 会改变地址
