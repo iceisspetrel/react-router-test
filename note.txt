@@ -1,0 +1,48 @@
+1、使用前需要从react-router中引入三个模块
+    import {Router, Route, hashHistory} from 'react-router';
+
+2、Router本质上试一个React组件，是一个容器。路由功能由Route组件实现
+    ReactDOM.render(
+        <Router history={hashHistory}>
+            <Route path='/' component={App}></Route>
+        </Router>,
+        document.getElementById('app')
+    );
+
+    Router定义history由hashHistory管理
+    Route中的path定义路由规则
+    Route中的component定义对应路由规则加载的组件名称
+
+3、Router中的Route路由列表除了2中的写法，也可以这样写
+
+    首先声明一个包含路由列表的变量
+    let routes = (
+        <Route path="/" component={App}></Route>
+        <Route path="/app1" component={App1}></Route>
+        <Route path="/app2" component={App2}></Route>
+    );
+
+    在Router的routes中注入上一步声明的路由列表
+    <Router routes={routes} history={hashHistory}></Router>
+
+4、嵌套路由
+    <Router history={hashHistory}>
+        <Route path="/app1" component={App1}>
+            <Route path="/app2" component={App2}></Route>
+        </Route>
+    </Router>
+
+    当访问 /#/app1时，页面加载App1组件
+    当访问 /#/app2时，页面加载App1和App2组件
+
+    如果是嵌套路由，由于App1中嵌套了App2，所以App1应该这么写
+
+    export default class App1 extends React.Component{
+        render() {
+            <div>
+                {
+                    this.props.children //this.props.children则指向了App2
+                }
+            </div>
+        }
+    }
