@@ -31,7 +31,7 @@ ReactDOM.render(
                 <Route path="p1" component={Page1}></Route>
                 <Route path="p2" component={Page2}></Route>
             </Route>
-            <Route path="/test" component={LinkTest}></Route>
+            <Route path="/test" onEnter={(params, replace) => {}} onLeave={(params, replace) => {debugger;return false;}} component={LinkTest}></Route>
             <Redirect from="/pagex" to="/page4/page5"></Redirect>
             <Route path="/page1/:name" component={Page1}></Route>
             <Route path="/page2(/:name)" component={Page2}></Route>

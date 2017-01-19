@@ -166,3 +166,16 @@
 
 12、代码指定跳转
     [hashHistory | browserHistory | createMemoryHistory].push(path);
+
+13、路由钩子函数 onEnter onLeave
+    <Route path="/xxx" onEnter={(params, replace) => {replace('/page1')}} onLeave={(params) => {return false}}></Route>
+
+    params 跳转参数
+    replace 替换地址，可以转向其他地址
+
+    componentDidMount () {
+        this.props.router.setRouteLeaveHook(
+            this.props.route,
+            this.routeWillLeave //return false可以阻止离开
+        );
+    }

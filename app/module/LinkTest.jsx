@@ -5,6 +5,17 @@ export default class LinkTest extends React.Component{
         super(props);
     }
 
+    componentDidMount () {
+        this.props.router.setRouteLeaveHook(
+            this.props.route,
+            this.routerWillLeave
+        );
+    }
+
+    routerWillLeave (nextPath) {
+        return Math.random() > 0.5;
+    }
+
     handleSubmit () {
         let name  = this.refs.name.value;
         let path  = '/page2/' + name;
