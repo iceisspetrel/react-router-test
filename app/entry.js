@@ -6,6 +6,7 @@ import Page3 from './module/Page3.jsx';
 import Page4 from './module/Page4.jsx';
 import Page5 from './module/Page5.jsx';
 import NotFound from './module/NotFound.jsx';
+import LinkTest from './module/LinkTest.jsx';
 
 {/*
 
@@ -30,6 +31,7 @@ ReactDOM.render(
                 <Route path="p1" component={Page1}></Route>
                 <Route path="p2" component={Page2}></Route>
             </Route>
+            <Route path="/test" component={LinkTest}></Route>
             <Redirect from="/pagex" to="/page4/page5"></Redirect>
             <Route path="/page1/:name" component={Page1}></Route>
             <Route path="/page2(/:name)" component={Page2}></Route>

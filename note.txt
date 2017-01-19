@@ -150,3 +150,19 @@
         相同点：都是处理根路径访问时默认加载组件
         不同点：IndexRoute不会改变地址
                 IndexRedirect 会改变地址
+
+10、Link 和 IndexLink
+    Link和IndexLink标签相当于封装后的a标签
+
+    <Link to="/path" activeStyle={{color : ''}} activeClassName={}>...</Link>
+    <IndexLink to="/" activeClassName="" activeStyle={}>...</IndexLink> //跳转到首页时使用
+    activeStyle指定行内样式，activeClassName指定样式类名
+
+11、history
+    history可以指定三个取值
+        hashHistory  路由通过hash值得切换实现  /#/page4
+        browserHistory 路由通过浏览器的普通路径实现 www.xxx.com/page4/page5  这种模式需要后台改造，否则会直接向后台发起请求
+        createMemoryHistory 内存中创建一个history对象，不与浏览器url互动。地址始终不变
+
+12、代码指定跳转
+    [hashHistory | browserHistory | createMemoryHistory].push(path);

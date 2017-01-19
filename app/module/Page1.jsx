@@ -9,7 +9,6 @@ export default class Page1 extends React.Component {
         return (
             <div>
                 Page1
-                <Link to="/"></Link>
             </div>
         );
     }
